@@ -1,0 +1,33 @@
+name: CI Backend
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./Backend 
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: Backend/package.json 
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Executar Linter
+        run: npm run lint
+
+      - name: Executar Testes
+        run: npm run test
